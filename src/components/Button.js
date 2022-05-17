@@ -1,4 +1,4 @@
-// BUTTON COMPONENT FILE:
+// BUTTON - COMPONENT FILE:
 //----------------------------------------------------------------------------------------------------------
 //IMPORTS:
 import React from "react";
