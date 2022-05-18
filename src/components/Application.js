@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import "components/Application.scss";
 import DayList from "components/DayList";
@@ -25,6 +25,11 @@ const days = [
 ];
 
 export default function Application(props) {
+  // STATE: -we store the day state in Application so that we can pass day down to via props
+  //        to any of the components below it in the tree.
+  // -calling setDay is how we change the state of day
+  const [day, setDay] = useState("Monday");
+
   return (
     <main className="layout">
       <section className="sidebar">
@@ -35,11 +40,7 @@ export default function Application(props) {
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-          <DayList
-            days={days}
-            day={"Monday"}
-            setDay={(day) => console.log(day)}
-          />
+          <DayList days={days} day={day} setDay={setDay} />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
