@@ -22,8 +22,6 @@ export default function DayList(props) {
   return <ul>{days}</ul>;
 }
 
-// MISSING SETDAY ACTION! LINE 13
-
 /* STEPS:
 -var named days is the result of mapping the days array
 
