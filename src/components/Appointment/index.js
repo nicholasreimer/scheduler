@@ -20,10 +20,9 @@ import Show from "components/Appointment/Show.jsx";
 import Empty from "components/Appointment/Empty.jsx";
 
 //----------------------------------------------------------------------------------------------------------
-//COMPONENT DECLARATION:
+//APPOINTMENT COMPONENT DECLARATION:
 
 export default function Appointment(props) {
-  console.log("props", props);
   return (
     <article
       className="appointment"
