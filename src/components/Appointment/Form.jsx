@@ -21,7 +21,8 @@ export default function Form(props) {
 
   //RESET FUNC: gets called by cancel() and resets the form values by targeting the change state functions
   const reset = () => {
-    return setStudent(""), setInterviewer(null);
+    setStudent("");
+    setInterviewer(null);
   };
 
   //CANCEL FUNC: gets called by onClick of cancel button. calls the reset func and runs code for storybook
@@ -43,7 +44,11 @@ export default function Form(props) {
             placeholder="Enter Student Name"
           />
         </form>
-        <InterviewerList value={interviewer} onChange={setInterviewer} />
+        <InterviewerList
+          interviewers={props.interviewers}
+          value={interviewer}
+          onChange={setInterviewer}
+        />
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">
