@@ -1,4 +1,4 @@
-// INDEX:
+// INDEX: (for Storybook)
 //----------------------------------------------------------------------------------------------------------
 //IMPORTS:
 import React from "react";
@@ -9,15 +9,23 @@ import { action } from "@storybook/addon-actions";
 import "index.scss";
 
 //---------------------------------------------------------------------------------------------------------------------
-// COMPONENT IMPORTS:
-// import the components listed below so that this file can pass props to them while inside storybook
+// COMPONENT IMPORTS: import the components listed below so that this file can pass props to them in storybook
+
+//COMPONENTS FOLDER:
 import Button from "components/Button";
 import DayListItem from "components/DayListItem";
 import DayList from "components/DayList";
 import InterviewerListItem from "components/InterviewerListItem";
 import InterviewerList from "components/InterviewerList";
 
+//APPOINTMENT COMPONENTS FOLDER:
 import Appointment from "components/Appointment/index.js";
+import Header from "components/Appointment/Header.jsx";
+import Empty from "components/Appointment/Empty.jsx";
+import Show from "components/Appointment/Show.jsx";
+import Confirm from "components/Appointment/Confirm.jsx";
+import Status from "components/Appointment/Status.jsx";
+import Error from "components/Appointment/Error.jsx";
 
 //---------------------------------------------------------------------------------------------------------------------
 // Stories for Storybook:
@@ -156,6 +164,9 @@ storiesOf("InterviewerList", module)
 
 //---------------------------------------------------------------------------------------------------------------------
 // APPOINTMENT STORIES:
+// -The stories seperated bellow allow us to test each of the smaller components in isolation.
+// -If we had built out all of the <Appointment> logic in one file we would have to write
+//  a single giant story for all of it.
 
 storiesOf("Appointment", module)
   .addParameters({
@@ -163,4 +174,34 @@ storiesOf("Appointment", module)
   })
   .add("Appointment", () => <Appointment />)
 
-  .add("Appointment with Time", () => <Appointment time="12pm" />);
+  .add("Appointment with Time", () => <Appointment time="12pm" />)
+
+  .add("Header", () => <Header time="12pm" />)
+
+  .add("Empty", () => <Empty onAdd={action("onAdd")} />)
+
+  .add("Show", () => (
+    <Show
+      student="Lydia Miller-Jones"
+      interviewer={interviewers}
+      onEdit={action("onEdit")}
+      onDelete={action("onDelete")}
+    />
+  ))
+
+  .add("Confirm", () => (
+    <Confirm
+      message="Delete the appointment?"
+      onConfirm={action("onConfirm")}
+      onCancel={action("onCancel")}
+    />
+  ))
+
+  .add("Status", () => <Status message="Deleting" />)
+
+  .add("Error", () => (
+    <Error
+      message="Could not delete appointment."
+      onClose={action("onClose")}
+    />
+  ));
