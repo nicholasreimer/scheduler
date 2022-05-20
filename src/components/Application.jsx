@@ -48,9 +48,13 @@ const appointments = {
   },
 };
 
-//------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------
+// COMPONENT DECLERATION:
 export default function Application(props) {
-  //-----------------------------------
+  //------------------------------------------------------------------------------------------------------
+  // GET DAY API DATA: (made possible by the react hook useEffect)
+  // -an axios get request returns data from an api that we use to update the state of var days
+  // -the request is run whenever the state of day is changed, which happens via the DayListItem component
   const [day, setDay] = useState("Monday");
   const [days, setDays] = useState([]);
 
@@ -60,7 +64,9 @@ export default function Application(props) {
     });
   }, [day]);
 
-  //-----------------------------------
+  //------------------------------------------------------------------------------------------------------
+  // -Convert appointments from an object to an array and map over that array
+  // -feed that data into the Appointment component and return it to the Application Components html return/render
   const appointmentList = Object.values(appointments).map((appointment) => {
     return (
       <Appointment
