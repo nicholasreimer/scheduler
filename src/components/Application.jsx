@@ -55,14 +55,25 @@ export default function Application(props) {
   // GET DAY API DATA: (made possible by the react hook useEffect)
   // -an axios get request returns data from an api that we use to update the state of var days
   // -the request is run whenever the state of day is changed, which happens via the DayListItem component
-  const [day, setDay] = useState("Monday");
-  const [days, setDays] = useState([]);
+
+  //We have bundled multiiple states into a single object, this allows us to add states efficiently
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+  });
+
+  // -these represent helper functions for the states within the state object
+  // -the setDay func takes in "day" and uses setState to update the value of "day" on the state object
+  const setDay = (day) => setState({ ...state, day });
+
+  //prev represents the most recent state and we use that to update the value of "days"
+  const setDays = (days) => setState((prev) => ({ ...prev, days }));
 
   useEffect(() => {
     axios.get(`http://localhost:8001/api/days`).then((response) => {
       setDays(response.data);
     });
-  }, [day]);
+  }, []);
 
   //------------------------------------------------------------------------------------------------------
   // -Convert appointments from an object to an array and map over that array
@@ -88,7 +99,7 @@ export default function Application(props) {
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-          <DayList days={days} value={day} onChange={setDay} />
+          <DayList days={state.days} value={state.day} onChange={setDay} />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
