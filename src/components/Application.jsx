@@ -1,6 +1,7 @@
 //APPLICATION COMPONENT:
 //------------------------------------------------------------------------------------
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import Appointment from "components/Appointment/index.js";
 import "components/Application.scss";
@@ -46,37 +47,20 @@ const appointments = {
     time: "4pm",
   },
 };
-//------------------------------------------------------------------------------------
-// MOCK DATA for APPLICATION COMPONENT: (gets pulled into Application component below)
-// -the result of Application using mock data renders in the nav html tag
-// -in the future this would be replaced by an api
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 0,
-  },
-];
 
 //------------------------------------------------------------------------------------
 export default function Application(props) {
-  // DAY STATE:
-  // -we store the state of var date in Application so that we can pass day down to via props
-  //  to any of the components below it in the tree.
-  // -calling setDay is how we change the state of day
-
+  //-----------------------------------
   const [day, setDay] = useState("Monday");
+  const [days, setDays] = useState([]);
 
+  useEffect(() => {
+    axios.get(`http://localhost:8001/api/days`).then((response) => {
+      setDays(response.data);
+    });
+  }, [day]);
+
+  //-----------------------------------
   const appointmentList = Object.values(appointments).map((appointment) => {
     return (
       <Appointment
