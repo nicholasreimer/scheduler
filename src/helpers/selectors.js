@@ -1,7 +1,7 @@
 //SELECTOR HELPER FUNCTIONS:
 
 //------------------------------------------------------------------------------------
-// GET AN ARRAY OF APPOINTMENT OBJS FOR A GIVEN DAY COMPONENT
+// RETURNS AN ARRAY OF APPOINTMENT OBJS FOR A GIVEN DAY COMPONENT
 export function getAppointmentsForDay(state, day) {
   if (state.days.length === 0) {
     return [];
@@ -17,6 +17,18 @@ export function getAppointmentsForDay(state, day) {
     (appointmentId) => state.appointments[appointmentId]
   );
 }
+
+// FUNC RETURN:
+/* [
+        { id: 1, time: '12pm', interview: null },
+        { id: 2, time: '1pm', interview: null },
+        {
+          id: 3,
+          time: '2pm',
+          interview: { student: 'Archie Cohen', interviewer: 2 }
+        }
+      ]
+*/
 
 //STEPS:
 /*
