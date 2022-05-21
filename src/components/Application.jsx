@@ -5,7 +5,11 @@ import axios from "axios";
 import Appointment from "components/Appointment/index.js";
 import "components/Application.scss";
 import DayList from "components/DayList";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors.js";
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "helpers/selectors.js";
 
 //-------------------------------------------------------------------------------------------------------
 // COMPONENT DECLERATION:
@@ -50,6 +54,8 @@ export default function Application(props) {
   //------------------------------------------------------------------------------------------------------
   // APPLICATION COMPONENT RETURN:
 
+  const dailyInterviewers = getInterviewersForDay(state, state.day);
+
   // calls a function that returns an array of appointment objects for a given day
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
@@ -62,7 +68,8 @@ export default function Application(props) {
         key={appointment.id}
         id={appointment.id}
         time={appointment.time}
-        interview={appointment.interview}
+        interview={interview}
+        interviewers={dailyInterviewers}
       />
     );
   });

@@ -18,21 +18,40 @@ import "components/Appointment/styles.scss";
 import Header from "components/Appointment/Header.jsx";
 import Show from "components/Appointment/Show.jsx";
 import Empty from "components/Appointment/Empty.jsx";
+import Form from "components/Appointment/Form";
 
+import useVisualMode from "hooks/useVisualMode.js";
 //----------------------------------------------------------------------------------------------------------
 //APPOINTMENT COMPONENT DECLARATION:
 
 export default function Appointment(props) {
+  const EMPTY = "EMPTY";
+  const SHOW = "SHOW";
+  const CREATE = "CREATE";
+
+  // We call our custom hook, if "show" has a value then it becomes the func param
+  // if it does not we pass "empty" as the func param
+  const { mode, transition, back } = useVisualMode(
+    props.interview ? SHOW : EMPTY
+  );
+
   return (
     <article className="appointment">
       <Header time={props.time} />
-      {props.interview ? (
+      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
+      {mode === SHOW && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
         />
-      ) : (
-        <Empty />
+      )}
+      {mode === CREATE && (
+        <Form
+          name={props.name}
+          value={props.value}
+          interviewers={props.interviewers}
+          onCancel={back}
+        />
       )}
     </article>
   );

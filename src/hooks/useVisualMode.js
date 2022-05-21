@@ -1,5 +1,10 @@
 import { useState } from "react";
 
+/*
+Create a transition function within useVisualMode that will take in a new mode and 
+update the mode state with the new value. 
+*/
+
 export default function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
 
@@ -31,9 +36,3 @@ export default function useVisualMode(initial) {
 
   return { mode, transition, back };
 }
-
-/*
-Create a transition function within useVisualMode that will take in a new mode and 
-update the mode state with the new value. If we used useState to initialize the mode 
-state in useVisualMode, what will we have to do to update the mode value?
-*/
