@@ -5,7 +5,7 @@ import axios from "axios";
 import Appointment from "components/Appointment/index.js";
 import "components/Application.scss";
 import DayList from "components/DayList";
-import { getAppointmentsForDay } from "helpers/selectors.js";
+import { getAppointmentsForDay, getInterview } from "helpers/selectors.js";
 
 //-------------------------------------------------------------------------------------------------------
 // COMPONENT DECLERATION:
@@ -17,6 +17,7 @@ export default function Application(props) {
     day: "Monday",
     days: [],
     appointments: {},
+    interviewers: {},
   });
 
   // -these represent helper functions for the states within the state object
@@ -35,24 +36,27 @@ export default function Application(props) {
     Promise.all([
       axios.get("http://localhost:8001/api/days"), //returns an array of individual day objects
       axios.get("http://localhost:8001/api/appointments"), //returns an object of individual interview objects
+      axios.get("http://localhost:8001/api/interviewers"), //returns an object of individual interviewER objects
     ]).then((all) => {
       setState((prev) => ({
         ...prev,
         days: all[0].data,
         appointments: all[1].data,
+        interviewers: all[2].data,
       }));
     });
   }, []);
 
-  // RETURNS AN ARRAY OF APPOINTMENT OBJS FOR A GIVEN DAY COMPONENT
+  //------------------------------------------------------------------------------------------------------
+  // APPLICATION COMPONENT RETURN:
+
+  // calls a function that returns an array of appointment objects for a given day
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
-  //------------------------------------------------------------------------------------------------------
-  // APPLICATION COMPONENT RETURN(S):
-  // -Convert appointments from an object to an array and map over that array
-  // -feed that data into the Appointment component and return it to the Application Components html return/render
-
+  // we map through the array of objects and use the data to create a bunch of Appointment components
   const appointmentObjects = dailyAppointments.map((appointment) => {
+    const interview = getInterview(state, appointment.interview);
+
     return (
       <Appointment
         key={appointment.id}
