@@ -26,6 +26,7 @@ import classNames from "classnames";
 export default function InterviewerListItem(props) {
   // If PROP #2 evaluates "truthy" add this class to the className for the InterviewListItem
   // This will trigger the scss styling that shows the component has been selected
+
   const InterviewerListItemClass = classNames("interviewers__item", {
     "interviewers__item--selected": props.selected,
   });

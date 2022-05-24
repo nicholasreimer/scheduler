@@ -1,4 +1,4 @@
-//APPLICATION COMPONENT:
+// APPLICATION COMPONENT:
 //---------------------------------------------------------------------------------------------------------
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -14,8 +14,8 @@ import {
 } from "helpers/selectors.js";
 
 //-------------------------------------------------------------------------------------------------------
-// COMPONENT DECLERATION:
-//-----------------------
+// APPLICATION COMPONENT DECLERATION:
+//----------------------------------------------------------------------------------------------------------
 export default function Application(props) {
   // STATE:
   //We have bundled multiiple states into a single object, this allows us to add states/ change states efficiently
@@ -86,14 +86,36 @@ export default function Application(props) {
         });
       });
   }
+  //------------------------------------------------------------------------------------------------------
+  // EDIT INTERVIEW FUNC:
+  function editInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview },
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+
+    return axios
+      .patch(`http://localhost:8001/api/appointments/${id}`, {
+        interview,
+      })
+      .then(() => {
+        setState({
+          ...state,
+          appointments,
+        });
+      });
+  }
 
   //------------------------------------------------------------------------------------------------------
   // DELETE INTERVIEW FUNC:
   // -this function is called by the onDeleteAppointment() and triggers an axios that deletes the appropriate
   //  entry in the db, once that resolves the state for the app is updated to match
   function cancelInterview(id) {
-    console.log(id);
-
     const appointment = {
       ...state.appointments[id],
       interview: null,
@@ -137,6 +159,7 @@ export default function Application(props) {
         interviewers={dailyInterviewers}
         bookInterview={bookInterview}
         cancelInterview={cancelInterview}
+        editInterview={editInterview}
       />
     );
   });
