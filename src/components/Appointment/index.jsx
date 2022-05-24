@@ -10,6 +10,7 @@ import Header from "components/Appointment/Header.jsx";
 import Show from "components/Appointment/Show.jsx";
 import Empty from "components/Appointment/Empty.jsx";
 import Form from "components/Appointment/Form";
+import Error from "components/Appointment/Error";
 
 //----------------------------------------------------------------------------------------------------------
 //MODES:
@@ -19,13 +20,14 @@ const CREATE = "CREATE";
 const SAVING = "SAVING";
 const DELETING = "DELETING";
 const EDIT = "EDIT";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
 
 //----------------------------------------------------------------------------------------------------------
 //APPOINTMENT COMPONENT DECLARATION:
 //----------------------------------------------------------------------------------------------------------
 
 export default function Appointment(props) {
-  console.log(props);
   // Is responsible for showing each individual interview slot
   // If there is not an interview scheduled it renders the empty space for that time slot
   // We call our custom hook, if "show" has a value then it becomes the func param
@@ -45,11 +47,14 @@ export default function Appointment(props) {
       interviewer,
     };
 
-    transition(SAVING); //While the code is running we set the mode to saving for the show component
+    transition(SAVING, true); //While the code is running we set the mode to saving for the show component
 
     // -We pass SHOW to the transition func with no other args, which adds show to the
     //  history array which then allows the appointment to build and render on the show component
-    props.bookInterview(props.id, interview).then(() => transition(SHOW));
+    props
+      .bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch((error) => transition(ERROR_SAVE, true));
   }
 
   //-----------------------------------------------------------------------------------------------------------
@@ -57,9 +62,12 @@ export default function Appointment(props) {
   // -client clicks the delete button in show component, that triggers a function call to onDeleteAppointment
   //  here in index.jsx, which then triggers the cancelInterview() within the apppointment component
   function onDeleteAppointment() {
-    transition(DELETING);
+    transition(DELETING, true);
 
-    props.cancelInterview(props.id).then(() => transition(EMPTY));
+    props
+      .cancelInterview(props.id)
+      .then(() => transition(EMPTY))
+      .catch((error) => transition(ERROR_DELETE, true));
   }
 
   //---------------------------------------------------------------------------------------------------------
@@ -89,6 +97,9 @@ export default function Appointment(props) {
           onEdit={onEditAppointment}
         />
       )}
+      {mode === ERROR_SAVE && <Error message={"ERROR: Save not working"} />}
+
+      {mode === ERROR_DELETE && <Error message={"ERROR: Delete not working"} />}
 
       {mode === SAVING && <Status message={"Saving"} />}
 
