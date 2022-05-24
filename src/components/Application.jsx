@@ -1,5 +1,5 @@
 //APPLICATION COMPONENT:
-//------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -88,6 +88,35 @@ export default function Application(props) {
   }
 
   //------------------------------------------------------------------------------------------------------
+  // DELETE INTERVIEW FUNC:
+  // -this function is called by the onDeleteAppointment() and triggers an axios that deletes the appropriate
+  //  entry in the db, once that resolves the state for the app is updated to match
+  function cancelInterview(id) {
+    console.log(id);
+
+    const appointment = {
+      ...state.appointments[id],
+      interview: null,
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+
+    return axios
+      .delete(`http://localhost:8001/api/appointments/${id}`, {
+        appointment,
+      })
+      .then(() => {
+        setState({
+          ...state,
+          appointments,
+        });
+      });
+  }
+
+  //------------------------------------------------------------------------------------------------------
   // APPLICATION COMPONENT RETURN:
 
   const dailyInterviewers = getInterviewersForDay(state, state.day);
@@ -107,6 +136,7 @@ export default function Application(props) {
         interview={interview}
         interviewers={dailyInterviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });

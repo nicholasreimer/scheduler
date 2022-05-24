@@ -18,6 +18,7 @@ const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
+const DELETING = "DELETING";
 
 //----------------------------------------------------------------------------------------------------------
 //APPOINTMENT COMPONENT DECLARATION:
@@ -49,6 +50,17 @@ export default function Appointment(props) {
     // -We pass SHOW to the transition func with no other args, which adds show to the
     //  history array which then allows the appointment to build and render on the show component
   }
+
+  //---------------------------------------------
+  // DELETE FUNC:
+  // -client clicks the delete button in show component, that triggers a function call to onDeleteAppointment
+  //  here in index.jsx, which then triggers the cancelInterview() within the apppointment component
+  function onDeleteAppointment() {
+    transition(DELETING);
+
+    props.cancelInterview(props.id).then(() => transition(EMPTY));
+  }
+
   //----------------------------------------------------------------------------------------------------------
   // APPOINTMENT COMPONENT JSX/HTML RENDER:
 
@@ -61,10 +73,13 @@ export default function Appointment(props) {
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
+          onDelete={onDeleteAppointment}
         />
       )}
 
       {mode === SAVING && <Status message={"Saving"} />}
+
+      {mode === DELETING && <Status message={"Deleting"} />}
 
       {mode === CREATE && (
         <Form
