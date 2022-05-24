@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /*
 Create a transition function within useVisualMode that will take in a new mode and 
 update the mode state with the new value. 
 */
+// USE VISUAL MODE HOOK:
+// decides wether a component shows or does not show based on state
 
+// -the mode
+
+// -it returns an object contaiing: the state of mode, a function within our hook called transition, a func within
+//  our hook
 export default function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
 
   const [history, setHistory] = useState([initial]);
 
+  // TRANSITION FUNC:
+  // the transition func (within the hook) allows us to add a MODE to the history array
+  // if replcae is truthy then we replace the MODE currently within the history array with the value passed as newMode
   const transition = (newMode, replace = false) => {
     if (replace) {
       setMode((prev) => newMode);
@@ -25,6 +34,8 @@ export default function useVisualMode(initial) {
   };
 
   //--------------------------------
+  // BACK FUNC:
+  // -the back func (within the hook) allows us to remove the last MODE from the history array (always from the end)
   function back() {
     let newHistory = [...history];
     newHistory.pop(mode);

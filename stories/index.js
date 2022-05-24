@@ -20,7 +20,7 @@ import InterviewerListItem from "components/InterviewerListItem";
 import InterviewerList from "components/InterviewerList";
 
 //APPOINTMENT COMPONENTS FOLDER:
-import Appointment from "components/Appointment/index.js";
+import Appointment from "components/Appointment/index.jsx";
 import Header from "components/Appointment/Header.jsx";
 import Empty from "components/Appointment/Empty.jsx";
 import Show from "components/Appointment/Show.jsx";

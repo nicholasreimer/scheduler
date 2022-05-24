@@ -1,4 +1,5 @@
 // STATUS - (OF APPOINTMENT)
+// -Status informs the user that an operation is in progress
 //----------------------------------------------------------------------------------------------------------
 //IMPORTS:
 import React from "react";

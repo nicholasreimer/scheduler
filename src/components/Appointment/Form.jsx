@@ -25,6 +25,11 @@ export default function Form(props) {
     setInterviewer(null);
   };
 
+  //ON SAVE: a function that will send the appropriate props to the save function within the appointment component
+  function onSubmit() {
+    props.save(student, interviewer);
+  }
+
   //CANCEL FUNC: gets called by onClick of cancel button. calls the reset func and runs code for storybook
   function cancel() {
     reset();
@@ -55,7 +60,9 @@ export default function Form(props) {
           <Button danger onClick={cancel}>
             Cancel
           </Button>
-          <Button confirm>Save</Button>
+          <Button onClick={onSubmit} confirm>
+            Save
+          </Button>
         </section>
       </section>
     </main>

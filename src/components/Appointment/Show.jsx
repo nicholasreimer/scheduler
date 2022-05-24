@@ -1,15 +1,11 @@
 // SHOW - (OF APPOINTMENT)
+// Show allows a user to see an existing appointment
 //----------------------------------------------------------------------------------------------------------
 //IMPORTS:
 import React from "react";
 
 //----------------------------------------------------------------------------------------------------------
 //PROPS THAT WILL BE PASSED TO COMPONENT:
-
-// 1.) ??
-
-//onEdit={action("onEdit")}
-//onDelete={action("onDelete")}
 
 //----------------------------------------------------------------------------------------------------------
 //COMPONENT DECLARATION:

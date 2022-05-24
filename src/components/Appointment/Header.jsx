@@ -1,4 +1,5 @@
 // HEADER - (OF APPOINTMENT)
+// -Header displays the time for the appointment
 //----------------------------------------------------------------------------------------------------------
 //IMPORTS:
 import React from "react";

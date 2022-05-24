@@ -1,4 +1,5 @@
 // ERROR - (OF APPOINTMENT)
+// -Error informs the user when an error occurs
 //----------------------------------------------------------------------------------------------------------
 //IMPORTS:
 import React from "react";

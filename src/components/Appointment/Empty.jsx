@@ -1,4 +1,5 @@
 // EMPTY - (OF APPOINTMENT)
+// -Empty allows a user to choose which time slot to book
 //----------------------------------------------------------------------------------------------------------
 //IMPORTS:
 import React from "react";

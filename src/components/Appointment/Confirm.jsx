@@ -1,4 +1,5 @@
 // CONFIRM - (OF APPOINTMENT)
+// -Confirm allows a user to confirm a destructive action
 //----------------------------------------------------------------------------------------------------------
 //IMPORTS:
 import React from "react";
