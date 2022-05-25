@@ -1,15 +1,10 @@
 // FORM - (OF APPOINTMENT)
 //----------------------------------------------------------------------------------------------------------
 //IMPORTS:
-
 import React, { useState } from "react";
 
 import Button from "components/Button.jsx";
 import InterviewerList from "components/InterviewerList";
-//----------------------------------------------------------------------------------------------------------
-//PROPS THAT WILL BE PASSED TO COMPONENT:
-
-// 1.) ??
 
 //----------------------------------------------------------------------------------------------------------
 //COMPONENT DECLARATION:
@@ -18,24 +13,42 @@ export default function Form(props) {
   // If props.student is undefined then it will use the empty string as the default state for student
   const [student, setStudent] = useState(props.student || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
+  const [error, setError] = useState("");
 
   //RESET FUNC: gets called by cancel() and resets the form values by targeting the change state functions
   const reset = () => {
+    setError("");
     setStudent("");
     setInterviewer(null);
   };
 
-  //ON SAVE: a function that will send the appropriate props to the save function within the appointment component
-  function onSubmit() {
-    props.save(student, interviewer);
+  //----------------------------------------------------------------------------------------------------------
+  //VALIDATE: a function that will send the appropriate props to the save function within the appointment component
+  function validate() {
+    if (!student) {
+      setError("student name cannot be blank");
+      return;
+    }
+
+    if (interviewer === null) {
+      setError("Please select an interviewer");
+      return;
+    }
+
+    setError("");
+
+    props.onSave(student, interviewer);
   }
 
+  //----------------------------------------------------------------------------------------------------------
   //CANCEL FUNC: gets called by onClick of cancel button. calls the reset func and runs code for storybook
   function cancel() {
     reset();
     props.onCancel();
   }
 
+  //----------------------------------------------------------------------------------------------------------
+  // RENDER:
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
@@ -49,6 +62,7 @@ export default function Form(props) {
             placeholder="Enter Student Name"
             data-testid="student-name-input"
           />
+          <section className="appointment__validation">{error}</section>
         </form>
         <InterviewerList
           interviewers={props.interviewers}
@@ -61,7 +75,7 @@ export default function Form(props) {
           <Button danger onClick={cancel}>
             Cancel
           </Button>
-          <Button onClick={onSubmit} confirm>
+          <Button onClick={validate} confirm>
             Save
           </Button>
         </section>

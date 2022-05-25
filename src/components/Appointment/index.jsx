@@ -47,7 +47,7 @@ export default function Appointment(props) {
       interviewer,
     };
 
-    transition(SAVING, true); //While the code is running we set the mode to saving for the show component
+    transition(SAVING); //While the code is running we set the mode to saving for the show component
 
     // -We pass SHOW to the transition func with no other args, which adds show to the
     //  history array which then allows the appointment to build and render on the show component
@@ -89,6 +89,7 @@ export default function Appointment(props) {
       <Header time={props.time} />
 
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
+
       {mode === SHOW && (
         <Show
           student={props.interview.student}
@@ -97,6 +98,7 @@ export default function Appointment(props) {
           onEdit={onEditAppointment}
         />
       )}
+
       {mode === ERROR_SAVE && <Error message={"ERROR: Save not working"} />}
 
       {mode === ERROR_DELETE && <Error message={"ERROR: Delete not working"} />}
@@ -111,7 +113,7 @@ export default function Appointment(props) {
           value={props.value}
           interviewers={props.interviewers}
           onCancel={back}
-          save={save}
+          onSave={save}
         />
       )}
 
@@ -122,7 +124,7 @@ export default function Appointment(props) {
           interviewer={props.interview.interviewer.id}
           interviewers={props.interviewers}
           onCancel={back}
-          save={save}
+          onSave={save}
         />
       )}
     </article>
