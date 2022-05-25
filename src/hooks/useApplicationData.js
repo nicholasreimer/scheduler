@@ -18,8 +18,31 @@ export default function useApplicationData(initial) {
 
   //------------------------------------------------------------------------------------------------------
   // SET DAY:
+  // "setState on its own is too powerfull so instead i will just give you this setDay since thats all i think u need"
   // -the setDay func takes in "day" and uses setState to update the value of "day" on the state object
   const setDay = (day) => setState({ ...state, day });
+
+  //------------------------------------------------------------------------------------------------------
+  //USE-EFFFECT API REQUEST: GET DAYS DATA + GET APPOINTMENTS DATA
+  //---------------------------------------------------------------
+  // -we use the react useEffect hook to make 3 get requests to our api we use a bundled Promise.all to run them together
+  // -when successfull Promise.all returns an array containing the resulting data from the 2 seperate requests
+  // -within the promises .then we call setState. We use the spread operator to copy the exsisiting values of
+  //  days state and appointments state and replace the parts of that are different with the data from our api get request
+  useEffect(() => {
+    Promise.all([
+      axios.get("/api/days"), //returns an array of individual day objects
+      axios.get("/api/appointments"), //returns an object of individual interview objects
+      axios.get("/api/interviewers"), //returns an object of individual interviewER objects
+    ]).then((all) => {
+      setState((prev) => ({
+        ...prev,
+        days: all[0].data,
+        appointments: all[1].data,
+        interviewers: all[2].data,
+      }));
+    });
+  }, []);
 
   //------------------------------------------------------------------------------------------------------
   // BOOK INTERVIEW:
@@ -53,6 +76,7 @@ export default function useApplicationData(initial) {
         setState({
           ...state,
           appointments,
+          days: updateSpots(id, state, "BOOK"),
         });
       });
   }
@@ -72,20 +96,42 @@ export default function useApplicationData(initial) {
       [id]: appointment,
     };
 
-    return axios
-      .delete(`http://localhost:8001/api/appointments/${id}`, {
-        appointment,
-      })
-      .then(() => {
-        setState({
-          ...state,
-          appointments,
-        });
-      });
+    return (
+      axios
+        .delete(`http://localhost:8001/api/appointments/${id}`, {
+          appointment,
+        })
+        // If the promise is resolved, use setState to update the values of the appointments state and call
+        // the updateSpots function inside of the day state to render its value based of the most current version of state
+        .then(() => {
+          setState({
+            ...state,
+            appointments,
+            days: updateSpots(id, state, "CANCEL"),
+          });
+        })
+    );
   }
 
   //------------------------------------------------------------------------------------------------------
+  // UPDATE SPOTS:
+  // -this fucntion is called in the .then of both the cancelInterview and the bookInterview functions
+  // -the function returns an array as the result of mapping state.days
+  // -as each day is mapped if the arg id matches the id within the day object AND the action arg is "CANCEL"
+  //  add 1 to the number value of day.spots for that specific day.
+  // -if the action is not equal then minus 1 from the value of day.spots
 
+  function updateSpots(id, state, action) {
+    return state.days.map((day) => {
+      if (day.appointments.includes(id)) {
+        action === "CANCEL" ? day.spots++ : day.spots--;
+        return day;
+      }
+      return day;
+    });
+  }
+
+  //------------------------------------------------------------------------------------------------------
   //HOOK RETURNS: returns an object with four keys:
-  return { state, setDay, setState, bookInterview, cancelInterview };
+  return { state, setDay, bookInterview, cancelInterview };
 }

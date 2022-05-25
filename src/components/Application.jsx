@@ -1,7 +1,6 @@
 // APPLICATION COMPONENT:
 //---------------------------------------------------------------------------------------------------------
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import "components/Application.scss";
 
 import Appointment from "components/Appointment/index.jsx";
@@ -18,30 +17,8 @@ import {
 // APPLICATION COMPONENT DECLERATION:
 //------------------------------------
 export default function Application(props) {
-  const { state, setDay, setState, bookInterview, cancelInterview } =
+  const { state, setDay, bookInterview, cancelInterview } =
     useApplicationData();
-
-  //------------------------------------------------------------------------------------------------------
-  //USE-EFFFECT API REQUEST: GET DAYS DATA + GET APPOINTMENTS DATA
-  //---------------------------------------------------------------
-  // -we use the react useEffect hook to make 3 get requests to our api we use a bundled Promise.all to run them together
-  // -when successfull Promise.all returns an array containing the resulting data from the 2 seperate requests
-  // -within the promises .then we call setState. We use the spread operator to copy the exsisiting values of
-  //  days state and appointments state and replace the parts of that are different with the data from our api get request
-  useEffect(() => {
-    Promise.all([
-      axios.get("http://localhost:8001/api/days"), //returns an array of individual day objects
-      axios.get("http://localhost:8001/api/appointments"), //returns an object of individual interview objects
-      axios.get("http://localhost:8001/api/interviewers"), //returns an object of individual interviewER objects
-    ]).then((all) => {
-      setState((prev) => ({
-        ...prev,
-        days: all[0].data,
-        appointments: all[1].data,
-        interviewers: all[2].data,
-      }));
-    });
-  }, []);
 
   //------------------------------------------------------------------------------------------------------
   // APPLICATION COMPONENT RETURN:
@@ -55,6 +32,7 @@ export default function Application(props) {
   const appointmentObjects = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
 
+    //RENDER
     return (
       <Appointment
         key={appointment.id}
