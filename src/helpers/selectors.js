@@ -1,8 +1,8 @@
 //SELECTOR HELPER FUNCTIONS:
-
 //--------------------------------------------------------------------------------------------
+
 // GET APPOINTMENTS FOR DAY(state, day)
-//-----------------------------------
+//--------------------------------------
 export function getAppointmentsForDay(state, day) {
   if (state.days.length === 0) {
     return [];
@@ -18,7 +18,7 @@ export function getAppointmentsForDay(state, day) {
     (appointmentId) => state.appointments[appointmentId]
   );
 }
-//--------------------------------
+//-------------------------------------
 // FUNC RETURN:
 /* [
         { id: 1, time: '12pm', interview: null },
@@ -30,17 +30,13 @@ export function getAppointmentsForDay(state, day) {
         }
       ]
 */
-//--------------------------------
+//-----------------------------------------
 //STEPS:
 /*
 -inside the function a conditional checks if the value of the day arg is empty
-
 -a var named result is equal to the object key within state.days that directly equals the func para day
-
 -if the value of result is falsey return an empty array
-
 -we map loop through state.appointments looking for values that match the values in our result.appointments array 
-
 -we return an array of appointment objects that match var results as the funcs output
 */
 
@@ -65,7 +61,6 @@ export function getInterview(state, interview) {
 //STEPS:
 /*
 -inside the function a conditional checks if the value of the "interview" arg has a value
-
 -a var named result is equal to an object with a series of key value pairs that match the tests expectations
 */
 
@@ -88,4 +83,4 @@ export function getInterviewersForDay(state, day) {
   });
 }
 
-//--------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------

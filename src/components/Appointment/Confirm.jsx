@@ -1,4 +1,4 @@
-// CONFIRM - (OF APPOINTMENT)
+// CONFIRM COMPONENT:
 // -Confirm allows a user to confirm a destructive action
 //----------------------------------------------------------------------------------------------------------
 //IMPORTS:

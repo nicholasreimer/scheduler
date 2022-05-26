@@ -1,4 +1,4 @@
-// FORM - (OF APPOINTMENT)
+// FORM COMPONENT:
 //----------------------------------------------------------------------------------------------------------
 //IMPORTS:
 import React, { useState } from "react";

@@ -3,6 +3,7 @@
 //IMPORTS:
 import React from "react";
 import "components/Appointment/styles.scss";
+
 import useVisualMode from "hooks/useVisualMode.js";
 
 import Status from "components/Appointment/Status.jsx";
@@ -28,7 +29,6 @@ const ERROR_DELETE = "ERROR_DELETE";
 //----------------------------------------------------------------------------------------------------------
 //APPOINTMENT COMPONENT DECLARATION:
 //----------------------------------------------------------------------------------------------------------
-
 export default function Appointment(props) {
   // Is responsible for showing each individual interview slot
   // If there is not an interview scheduled it renders the empty space for that time slot
@@ -39,6 +39,7 @@ export default function Appointment(props) {
   );
 
   //----------------------------------------------------------------------------------------------------------
+  // REMOVE FUNC:
   // -if the user clicks the onconfirm for the confirm component then we transition to DELETING
   // and we run the cancelInterview() with the corresponding props
   function remove() {
@@ -85,16 +86,11 @@ export default function Appointment(props) {
   //---------------------------------------------------------------------------------------------------------
   // EDIT APPOINTMENT FUNC:
   function onEditAppointment(name, interviewer) {
-    const interview = {
-      student: name,
-      interviewer,
-    };
-
     transition(EDIT);
   }
 
   //----------------------------------------------------------------------------------------------------------
-  // APPOINTMENT COMPONENT JSX/HTML RENDER:
+  // APPOINTMENT COMPONENT RENDER:
 
   return (
     <article className="appointment">
@@ -150,6 +146,3 @@ export default function Appointment(props) {
     </article>
   );
 }
-
-//---------------------------------------------------------------------------------------------------------
-//END

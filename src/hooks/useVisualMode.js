@@ -1,10 +1,11 @@
 // USE VISUAL MODE HOOK:
 //-------------------------------------------------------------------------------------------------------------
-import { useEffect, useState } from "react";
+// IMPORTS:
+import { useState } from "react";
 
 //-------------------------------------------------------------------------------------------------------------
-// -decides whether a component shows or does not show based on its state
-// -it returns an object contaiing: the state of mode, a function within our hook called transition, a
+// -this custom hook decides whether a component shows or does not show based on its state
+// -it returns an object contaiing: the state of mode, a function within our hook called transition, and a
 //  func within our hook called back()
 export default function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);

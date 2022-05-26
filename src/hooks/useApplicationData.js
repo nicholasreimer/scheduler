@@ -1,14 +1,15 @@
 // USE APPLICATION DATA - HOOK
 //---------------------------------------------------------------------------------------------------------
+// IMPORTS:
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 //---------------------------------------------------------------------------------------------------------
 
 export default function useApplicationData(initial) {
-  //------------------------------------------------------------------------------------------------------
+  //--------------------------------------------------
   // STATE:
-  //We have bundled multiiple states into a single object, this allows us to add states/ change states efficiently
+  // -We have bundled multiiple states into a single object, this allows us to add states/ change states efficiently
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -16,19 +17,19 @@ export default function useApplicationData(initial) {
     interviewers: {},
   });
 
-  //------------------------------------------------------------------------------------------------------
+  //----------------------------------------------------
   // SET DAY:
-  // "setState on its own is too powerfull so instead i will just give you this setDay since thats all i think u need"
+  // -Thought Process: "setState on its own is too powerfull so instead i will just give you this setDay since thats all u need"
   // -the setDay func takes in "day" and uses setState to update the value of "day" on the state object
   const setDay = (day) => setState({ ...state, day });
 
   //------------------------------------------------------------------------------------------------------
   //USE-EFFFECT API REQUEST: GET DAYS DATA + GET APPOINTMENTS DATA
   //---------------------------------------------------------------
-  // -we use the react useEffect hook to make 3 get requests to our api we use a bundled Promise.all to run them together
+  // -we use the react useEffect hook to make 3 get requests to our api that are bundled in a Promise.all
   // -when successfull Promise.all returns an array containing the resulting data from the 2 seperate requests
   // -within the promises .then we call setState. We use the spread operator to copy the exsisiting values of
-  //  days state and appointments state and replace the parts of that are different with the data from our api get request
+  //  days state and appointments state and replace the parts that are different with the data from our api get request
   useEffect(() => {
     Promise.all([
       axios.get("/api/days"), //returns an array of individual day objects
@@ -42,17 +43,18 @@ export default function useApplicationData(initial) {
         interviewers: all[2].data,
       }));
     });
+    // A single set of [] as the useEffects 2nd arg means this will run once on initial render
   }, []);
 
   //------------------------------------------------------------------------------------------------------
   // BOOK INTERVIEW:
-  // -The bookInterview action makes an HTTP request and updates the local state.
-  // -This function was called by the save func within index.jsx (go ther for more notes on how it works)
+  // -bookInterview makes an HTTP request and updates the local state.
+  // -This function was called by the save func within index.jsx (go there for more notes on how it works)
   // -it logs the values of id and interview
 
   function bookInterview(id, interview) {
-    //-we create a new appoinment obj and make values for it that are copied from the existing appointments state.
-    //-We replace the current value of the interview key with the new value our function contains
+    // -we create a new appoinment obj and use the values from the existing appointments state.
+    // -We replace the current value of the interview key with the new value our function contains
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
@@ -72,7 +74,8 @@ export default function useApplicationData(initial) {
         interview,
       })
       .then(() => {
-        // -now that we have our object ready and our promise has resolved we pass it into setState to update the values of the state obj
+        // -now that we have our object ready and our promise has resolved we pass it into setState to
+        //  update the values of the state obj accordingly.
         setState({
           ...state,
           appointments,
@@ -101,8 +104,8 @@ export default function useApplicationData(initial) {
         .delete(`http://localhost:8001/api/appointments/${id}`, {
           appointment,
         })
-        // If the promise is resolved, use setState to update the values of the appointments state and call
-        // the updateSpots function inside of the day state to render its value based of the most current version of state
+        // -If the promise is resolved, use setState to update the values of the appointments state and call
+        //  the updateSpots function inside of the day state to render its value based of the most current version of state
         .then(() => {
           setState({
             ...state,
@@ -124,7 +127,11 @@ export default function useApplicationData(initial) {
   function updateSpots(id, state, action) {
     return state.days.map((day) => {
       if (day.appointments.includes(id)) {
-        action === "CANCEL" ? day.spots++ : day.spots--;
+        if (action === "CANCEL") {
+          day.spots++;
+        } else if (day.spots > 0) {
+          day.spots--;
+        }
         return day;
       }
       return day;
@@ -132,6 +139,6 @@ export default function useApplicationData(initial) {
   }
 
   //------------------------------------------------------------------------------------------------------
-  //HOOK RETURNS: returns an object with four keys:
+  //HOOK RETURN: returns an object with four keys:
   return { state, setDay, bookInterview, cancelInterview };
 }

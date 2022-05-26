@@ -1,4 +1,4 @@
-// INTERVIEWER LIST  - COMPONENT FILE: (LIST OF INTERVIEWER LIST ITEMS)
+// INTERVIEWER LIST  - COMPONENT (LIST OF INTERVIEWER LIST ITEMS)
 //----------------------------------------------------------------------------------------------------------
 //IMPORTS:
 import React from "react";
@@ -20,7 +20,7 @@ import InterviewerListItem from "./InterviewerListItem";
 // 3.) INTERVIEWER: NUMBER - number that represents the id of the currently selected interviewer
 
 //----------------------------------------------------------------------------------------------------------
-//COMPONENT DECLARATION:
+// INTERVIEWER LIST:
 export default function InterviewerList(props) {
   const listItem = props.interviewers.map((interviewer) => {
     return (
@@ -34,6 +34,8 @@ export default function InterviewerList(props) {
     );
   });
 
+  //----------------------------------------------------------------------------------------------------------
+  //RENDER:
   //component will return an array of <InterviewerListItem> components.
   return (
     <section className="interviewers">

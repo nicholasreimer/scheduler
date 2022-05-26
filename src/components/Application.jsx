@@ -21,8 +21,6 @@ export default function Application(props) {
     useApplicationData();
 
   //------------------------------------------------------------------------------------------------------
-  // APPLICATION COMPONENT RETURN:
-
   const dailyInterviewers = getInterviewersForDay(state, state.day);
 
   // calls a function that returns an array of appointment objects for a given day
@@ -32,6 +30,7 @@ export default function Application(props) {
   const appointmentObjects = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
 
+    //------------------------------------------------------------------------------------------------------
     //RENDER
     return (
       <Appointment
