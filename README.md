@@ -24,6 +24,6 @@ npm run storybook
 
 Screenshots of the project:
 
-!["Home Page:"] (https://github.com/nicholasreimer/scheduler/blob/master/Screenshots/HomeScreen.png)
+!["Home Page:"](https://github.com/nicholasreimer/scheduler/blob/master/Screenshots/HomeScreen.png)
 
-!["Add an Appointment:"] (https://github.com/nicholasreimer/scheduler/blob/master/Screenshots/createAppointment.png?raw=true)
+!["Add an Appointment:"](https://github.com/nicholasreimer/scheduler/blob/master/Screenshots/createAppointment.png?raw=true)
