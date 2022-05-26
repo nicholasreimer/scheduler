@@ -4,10 +4,6 @@
 //IMPORTS:
 import React from "react";
 import Button from "components/Button.jsx";
-//----------------------------------------------------------------------------------------------------------
-//PROPS THAT WILL BE PASSED TO COMPONENT:
-
-// 1.) ??
 
 //----------------------------------------------------------------------------------------------------------
 //COMPONENT DECLARATION:

@@ -11,6 +11,7 @@ import Show from "components/Appointment/Show.jsx";
 import Empty from "components/Appointment/Empty.jsx";
 import Form from "components/Appointment/Form";
 import Error from "components/Appointment/Error";
+import Confirm from "components/Appointment/Confirm";
 
 //----------------------------------------------------------------------------------------------------------
 //MODES:
@@ -20,6 +21,7 @@ const CREATE = "CREATE";
 const SAVING = "SAVING";
 const DELETING = "DELETING";
 const EDIT = "EDIT";
+const CONFIRM = "CONFIRM";
 const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
 
@@ -35,6 +37,21 @@ export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
+
+  //----------------------------------------------------------------------------------------------------------
+  // -if the user clicks the onconfirm for the confirm component then we transition to DELETING
+  // and we run the cancelInterview() with the corresponding props
+  function remove() {
+    if (mode === CONFIRM) {
+      transition(DELETING, true);
+      props
+        .cancelInterview(props.id)
+        .then(() => transition(EMPTY))
+        .catch((error) => transition(ERROR_DELETE, true));
+    } else {
+      transition(CONFIRM);
+    }
+  }
 
   //---------------------------------------------------------------------------------------------------------
   // SAVE APPOINTMENT FUNC:
@@ -59,15 +76,10 @@ export default function Appointment(props) {
 
   //-----------------------------------------------------------------------------------------------------------
   // DELETE APPOINTMENT FUNC:
-  // -client clicks the delete button in show component, that triggers a function call to onDeleteAppointment
-  //  here in index.jsx, which then triggers the cancelInterview() within the apppointment component
-  function onDeleteAppointment() {
-    transition(DELETING, true);
+  // -client clicks the delete button in show component, that triggers a transition change to CONFIRM
 
-    props
-      .cancelInterview(props.id)
-      .then(() => transition(EMPTY))
-      .catch((error) => transition(ERROR_DELETE, true));
+  function onDeleteAppointment() {
+    transition(CONFIRM);
   }
 
   //---------------------------------------------------------------------------------------------------------
@@ -106,6 +118,14 @@ export default function Appointment(props) {
       {mode === SAVING && <Status message={"Saving"} />}
 
       {mode === DELETING && <Status message={"Deleting"} />}
+
+      {mode === CONFIRM && (
+        <Confirm
+          onCancel={back}
+          onConfirm={remove}
+          message="Are you sure you would like to delete?"
+        />
+      )}
 
       {mode === CREATE && (
         <Form
