@@ -62,7 +62,7 @@ describe("Appointments", () => {
     // -find confirm popup and click it
     cy.contains("Confirm").click();
 
-    // -
+    // -this confirms the correct info exsisits in the appropriate components
     cy.contains("Deleting");
     cy.contains("Deleting").should("not.exist");
     cy.contains(".appointment__card--show", "Archie Cohen").should("not.exist");
