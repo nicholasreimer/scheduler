@@ -70,7 +70,7 @@ export default function useApplicationData(initial) {
     // -we return a PUT request to the /api/appointments/:id endpoint as a promise to update the database with
     //  the new data from above so that when the browser refreshes, the data is persistent.
     return axios
-      .put(`http://localhost:8001/api/appointments/${id}`, {
+      .put(`/api/appointments/${id}`, {
         interview,
       })
       .then(() => {
@@ -101,7 +101,7 @@ export default function useApplicationData(initial) {
 
     return (
       axios
-        .delete(`http://localhost:8001/api/appointments/${id}`, {
+        .delete(`/api/appointments/${id}`, {
           appointment,
         })
         // -If the promise is resolved, use setState to update the values of the appointments state and call
@@ -125,14 +125,21 @@ export default function useApplicationData(initial) {
   // -if the action is not equal then minus 1 from the value of day.spots
 
   function updateSpots(id, state, action) {
+    // -if the state of interview is falsey it will be kept false by the !! operator and can
+    //  then be used to make sure day.spots value does not change.
+    // -keeping the value false makes it easy to write the conditional in a boolean style that guarantees
+    //  if u edit an exsisiting appt u will not change day.spots
+    const isEditingAppointment = !!state.appointments[id].interview;
+
     return state.days.map((day) => {
       if (day.appointments.includes(id)) {
-        if (action === "CANCEL") {
-          day.spots++;
-        } else if (day.spots > 0) {
-          day.spots--;
+        if (isEditingAppointment) {
+          return day;
         }
-        return day;
+      } else if (action === "CANCEL") {
+        day.spots++;
+      } else if (day.spots > 0) {
+        day.spots--;
       }
       return day;
     });

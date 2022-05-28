@@ -107,9 +107,13 @@ export default function Appointment(props) {
         />
       )}
 
-      {mode === ERROR_SAVE && <Error message={"ERROR: Save not working"} />}
+      {mode === ERROR_SAVE && (
+        <Error onClose={back} message={"ERROR: Save not working"} />
+      )}
 
-      {mode === ERROR_DELETE && <Error message={"ERROR: Delete not working"} />}
+      {mode === ERROR_DELETE && (
+        <Error onClose={back} message={"ERROR: Delete not working"} />
+      )}
 
       {mode === SAVING && <Status message={"Saving"} />}
 
