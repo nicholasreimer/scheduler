@@ -133,13 +133,14 @@ export default function useApplicationData(initial) {
 
     return state.days.map((day) => {
       if (day.appointments.includes(id)) {
-        if (isEditingAppointment) {
+        if (action === "CANCEL") {
+          day.spots++;
+        } else if (isEditingAppointment) {
           return day;
+        } else if (day.spots > 0) {
+          day.spots--;
         }
-      } else if (action === "CANCEL") {
-        day.spots++;
-      } else if (day.spots > 0) {
-        day.spots--;
+        return day;
       }
       return day;
     });
